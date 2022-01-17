@@ -1,0 +1,17 @@
+ .honshu-gif {
+   background-image: url("https://cdn.discordapp.com/attachments/585982226097766421/932672889486987305/junto.gif");
+   background-repeat: no-repeat;
+   background-size: cover;
+   background-position: center center;
+   min-width: 105vw;
+   height: 7500px;
+ }
+.content-holder {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  height: 7500px;
+}
+* {
+  outline: 1px solid red;
+}
