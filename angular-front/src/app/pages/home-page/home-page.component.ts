@@ -12,4 +12,13 @@ export class HomePageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  navigateTo(target:string) {
+    const _target = window.document.getElementById(target)!
+    _target.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest"
+    });
+  }
+
 }

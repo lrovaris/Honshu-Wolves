@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'angular-front';
+  title = 'honshu-wolves';
+
+  openLink(target:string) {
+    target == 'discord' ? window.open("https://discord.gg/honshu-wolves") : window.open("https://twitter.com/HonshuWolves")
+  }
+
 }

@@ -1,0 +1,33 @@
+
+.discord {
+  background: url("https://cdn.discordapp.com/attachments/932997751631908914/932997790903189524/discord.png");
+  background-size: cover;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  margin-left: 10px;
+  margin-top: 16px;
+  z-index: 999;
+}
+
+.twitter {
+  background: url("https://cdn.discordapp.com/attachments/932997751631908914/932997790563434506/twitter.png");
+  background-size: cover;
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  margin-top: 56px;
+  margin-left: 10px;
+  z-index: 999;
+}
+
+.sidebar {
+  position: fixed;
+  top: 45%;
+  width: 50px;
+  height: 100px;
+  background-color: rgba(23, 23, 23, 0.37);
+  left: 10px;
+  border-radius: 20px;
+  cursor: pointer;
+}

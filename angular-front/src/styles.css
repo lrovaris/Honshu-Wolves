@@ -2,3 +2,16 @@
  body {
    background-color: #181526;
  }
+
+* {
+  margin: 0;
+}
+
+ * {
+   font-family: silkscreen;
+ }
+
+@font-face {
+  font-family: silkscreen;
+  src: url(slkscr.ttf);
+}

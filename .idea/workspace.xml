@@ -7,6 +7,13 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -22,11 +29,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="ts.external.directory.path" value="C:\Users\Rovaris\Documents\GitHub\Honshu-Wolves\angular-front\node_modules\typescript\lib" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\Rovaris\Documents\GitHub\Honshu-Wolves\angular-front" />
+      <recent name="C:\Users\Rovaris\Documents\GitHub\Honshu-Wolves\angular-front\font" />
       <recent name="C:\Users\Rovaris\Documents\GitHub\Honshu-Wolves\angular-front\src\app\pages" />
     </key>
   </component>
@@ -39,7 +49,9 @@
       <option name="presentableId" value="Default" />
       <updated>1642431924264</updated>
       <workItem from="1642431926857" duration="595000" />
-      <workItem from="1642433245777" duration="5516000" />
+      <workItem from="1642433245777" duration="6111000" />
+      <workItem from="1642513081110" duration="10490000" />
+      <workItem from="1642591515561" duration="11622000" />
     </task>
     <servers />
   </component>
