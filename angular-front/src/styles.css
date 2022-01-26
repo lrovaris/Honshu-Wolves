@@ -15,3 +15,7 @@
   font-family: silkscreen;
   src: url(slkscr.ttf);
 }
+
+* {
+  font-weight: 400 !important;
+}

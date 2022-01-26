@@ -7,24 +7,23 @@
   background-size: contain;
   width: 15%;
   height: 0;
-  padding-top: 15%; /* (img-height / img-width * container-width) */
+  padding-top: 16%; /* (img-height / img-width * container-width) */
   /* (150 / 150 * 50) */
-  margin-bottom: 2vw;
   background-color: #17234d;
   display: table-cell;
 }
 .container {
   content: "";
-  font-size: 1.8vw;
+  font-size: 1.4vw;
   display: table;
-  margin: 16px;
+  margin: 32px;
   color: white;
 }
 
 .text-box {
   padding: 16px;
   background-color: #233778;
-  width: 80vw;
+  width: 55vw;
   max-height: 30vw;
   margin-bottom: 5vw;
   display: table-cell;

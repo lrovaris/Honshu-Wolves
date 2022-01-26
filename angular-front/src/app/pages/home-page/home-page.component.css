@@ -22,7 +22,7 @@ position: relative;
   position: absolute;
   top: 40.5%;
   text-align: left;
-  width: 80%;
+  width: 57vw;
 }
 
 
@@ -37,13 +37,13 @@ h1 {
   font-family: silkscreen;
   color: white;
   font-weight: bold;
-  font-size: 5vw;
+  font-size: 4vw;
   text-align: left;
 }
 p {
   font-family: silkscreen;
   color: white;
-  font-size: 2vw;
+  font-size: 1.2vw;
   font-weight: bold;
   line-height: 2.5vw;
 }
@@ -58,7 +58,7 @@ p {
    position: absolute;
    top: 22%;
    width: 80vw;
-
+  font-size: 1.8vw;
  }
  .faq {
    position: absolute;
@@ -95,19 +95,6 @@ p {
    height: auto;
  }
 
- section.sec2 h2 {
-   font-size: 3em;
-   margin: 0;
-   padding: 0 0 20px;
-   color: #fff;
- }
-
- section.sec2 p {
-   font-size: 1.2em;
-   margin: 0;
-   padding: 0;
-   color: #fff;
- }
 
  section.sec3 {
    background: url("https://images.pexels.com/photos/1267696/pexels-photo-1267696.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260");
@@ -154,7 +141,7 @@ p {
 
 .faq-col {
   position: absolute;
-  top: 78%;
+  top: 76.5%;
 }
 
  .road-map-col {
