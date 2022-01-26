@@ -1,0 +1,26 @@
+{
+  "name": "testegif",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "dependencies": {
+    "canvas": "^2.8.0",
+    "get-pixels": "^3.3.3",
+    "gif-encoder": "^0.7.2",
+    "gif-encoder-2": "^1.0.5",
+    "gm": "^1.23.1",
+    "images": "^3.2.3",
+    "make-a-gif": "^2.0.2",
+    "merge-images": "^2.0.0",
+    "object-hash": "^2.2.0",
+    "path": "^0.12.7",
+    "random-hub": "^1.0.0",
+    "rimraf": "^3.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

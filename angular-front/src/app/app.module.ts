@@ -5,12 +5,16 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home-page/home-page.component';
 import { HeaderComponent } from './components/header/header.component';
+import { FaqBoxComponent } from './components/faq-box/faq-box.component';
+import { RoadMapBoxComponent } from './components/road-map-box/road-map-box.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomePageComponent,
-    HeaderComponent
+    HeaderComponent,
+    FaqBoxComponent,
+    RoadMapBoxComponent
   ],
   imports: [
     BrowserModule,
