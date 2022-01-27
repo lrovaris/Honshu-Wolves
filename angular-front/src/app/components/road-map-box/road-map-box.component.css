@@ -14,9 +14,9 @@
 }
 .container {
   content: "";
-  font-size: 1.4vw;
+  font-size: 1.6vw;
   display: table;
-  margin: 32px;
+  margin: 2vw;
   color: white;
 }
 

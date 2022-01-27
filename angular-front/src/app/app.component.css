@@ -31,3 +31,14 @@
   border-radius: 20px;
   cursor: pointer;
 }
+
+.footer {
+  background-color: #233778;
+  padding: 16px;
+  text-align: center;
+  font-size: 2vw;
+  font-weight: 300;
+  position: sticky;
+  bottom: 0;
+  width: auto;
+}

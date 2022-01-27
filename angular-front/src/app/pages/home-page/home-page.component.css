@@ -60,12 +60,7 @@ p {
    width: 80vw;
   font-size: 1.8vw;
  }
- .faq {
-   position: absolute;
-   top: 75%;
-   text-align: left;
-   width: 80vw;
- }
+
 
  body {
    margin: 0;
@@ -138,13 +133,39 @@ p {
  }
 
 
+ .faq {
+   position: absolute;
+   top: 83%;
+   text-align: left;
+   width: 80vw;
 
+ }
 .faq-col {
   position: absolute;
-  top: 76.5%;
+  top: 85%;
+  justify-content: center;
+  align-content: center;
 }
 
  .road-map-col {
    position: absolute;
    top: 42%;
+ }
+
+ .footer {
+   background-color: #233778;
+   padding: 16px;
+   text-align: left;
+   font-size: 2vw;
+   font-weight: 300;
+   position: absolute;
+   bottom: 0;
+   width: auto;
+ }
+
+
+ .wrapper {
+   display: flex;
+   justify-content: center;
+   align-content: center;
  }
