@@ -7,6 +7,7 @@ const mergeImages = require('merge-images');
 const images = require("images");
 const { promisify } = require('util')
 const hash  = require('object-hash')
+let assetLimitControl = require('./assetLimitControl')
 
 const readdir = promisify(require('fs').readdir)
 
@@ -28,8 +29,8 @@ function getRandomIndexByProbability(probabilities) {
     return index;
 }
 
-let probabilities = [0.45, 0.35, 0.12, 0.08]
-let Folders = ["Common", "Uncommon", "Rare", "Legendary"]
+let probabilities = [1]
+let Folders = ["Common"]
 
 let metaHash = ''
 let metadataArray = []
@@ -64,7 +65,7 @@ let TypeRarity = ""
 let HeadRarity = ""
 
 
-async function readDirectories(backgroundRarity,ArmourRarity,EyesRarity,MouthRarity,TypeRarity,HeadRarity, callback) {
+async function readDirectories(callback) {
 
     background = []
     Armour = []
@@ -74,17 +75,17 @@ async function readDirectories(backgroundRarity,ArmourRarity,EyesRarity,MouthRar
     Head = []
     Bandana = []
 
-    background = await readdir("./Background/"+backgroundRarity)
+    background = await readdir("./Background/"+'Common')
 
-    Armour =  await readdir("./Armour/"+ArmourRarity)
+    Armour =  await readdir("./Armour/"+'Common')
 
-    Eyes =  await readdir("./Eyes/"+EyesRarity)
+    Eyes =  await readdir("./Eyes/"+'Common')
 
-    Mouth = await readdir("./Mouth/"+MouthRarity)
+    Mouth = await readdir("./Mouth/"+'Common')
 
-    Type =  await readdir("./Type/"+TypeRarity)
+    Type =  await readdir("./Type/"+'Common')
 
-    Head = await readdir("./Head/"+HeadRarity)
+    Head = await readdir("./Head/"+'Common')
 
     Bandana = await readdir("./Eyes/bandana/")
 
@@ -96,30 +97,17 @@ async function readDirectories(backgroundRarity,ArmourRarity,EyesRarity,MouthRar
 
 }
 
-
+ readDirectories( async()  =>  {
+  await  generateSprites()
+}).then( () => {
+     console.log('ue')
+ })
 
 
 
 async  function generateSprites() {
 
-    backgroundRarity = Folders[getRandomIndexByProbability(probabilities)]
-    ArmourRarity = Folders[getRandomIndexByProbability(probabilities)]
-    EyesRarity = Folders[getRandomIndexByProbability(probabilities)]
-    MouthRarity = Folders[getRandomIndexByProbability(probabilities)]
-    TypeRarity = Folders[getRandomIndexByProbability(probabilities)]
-    HeadRarity = Folders[getRandomIndexByProbability(probabilities)]
-
-
-    await readDirectories(
-        backgroundRarity,
-        ArmourRarity,
-        EyesRarity,
-        MouthRarity,
-        TypeRarity,
-        HeadRarity, ()  =>  {
-            afterReadDireactories()
-        })
-
+   await afterReadDireactories()
 
     if (index > limit ){
         metadataArray = JSON.stringify(metadataArray,null,2)
@@ -137,447 +125,40 @@ async  function generateSprites() {
 
 async function afterReadDireactories()  {
 
-
-
     backgroundName = background[getRandomInt(0,background.length)]
+
     ArmourName = Armour[getRandomInt(0,Armour.length)]
-    EyesName = Eyes[getRandomInt(0,Eyes.length)]
-    MouthName = Mouth[getRandomInt(0,Mouth.length)]
+
     TypeName = Type[getRandomInt(0,Type.length)]
+
     HeadName = Head[getRandomInt(0,Head.length)]
+
+    MouthName = Mouth[getRandomInt(0,Mouth.length)]
+
+    EyesName = Eyes[getRandomInt(0,Eyes.length)]
+
+    MouthName = Mouth[getRandomInt(0,Mouth.length)]
 
     let metadata = {}
 
     if(HeadName.includes('bandana')) {
+        EyesName = Bandana[getRandomInt(0, Bandana.length)]
 
-        EyesName = Bandana[getRandomInt(0,Bandana.length)]
-
-        if(EyesName === 'none') {
-            metadata = {
-                description: "description_test",
-                atributes: [
-
-                    {
-                        trait_type: "Type",
-                        value: TypeName.substring(0, (TypeName.length - 4))
-                    },
-                    {
-                        trait_type: "Armour",
-                        value: ArmourName.substring(0, (ArmourName.length - 4))
-                    },
-                    {
-                        trait_type: "Background",
-                        value: backgroundName.substring(0, (backgroundName.length - 4))
-                    },
-                    {
-                        trait_type: "Mouth",
-                        value: MouthName.substring(0, (MouthName.length - 4))
-                    },
-                    {
-                        trait_type: "Head",
-                        value: HeadName.substring(0, (HeadName.length - 4))
-                    }
-                ]
-
-            }
-
-            metaHash = hash(metadata)
-
-            const x = metadataArray.find(_metadata => _metadata === metaHash)
-
-
-            if(!x) {
-                metadata["name"] = `${index}`
-                metadataArray.push(metaHash);
-                metadata = {}
-
-
-                fs.mkdir(`./export/${index}`, () => {})
-
-                for (let i = 1; i < 9; i++) {
-                    images(`./Background/${backgroundRarity}/${backgroundName}/${i}.png`)
-                        .draw(images(`./Type/${TypeRarity}/${TypeName}/${i}.png`), 0, 0)
-                        .draw(images(`./Armour/${ArmourRarity}/${ArmourName}/${i}.png`), 0, 0)
-                        .draw(images(`./Head/${HeadRarity}/${HeadName}/${i}.png`), 0, 0)
-                        .draw(images(`./Mouth/${MouthRarity}/${MouthName}/${i}.png`), 0, 0)
-                        .save(`./export/${index}/${i}.png`, {
-                            quality: 1
-                        });
-                }
-
-
-
-                index += 1
-            }
-
-        } else {
-            metadata = {
-
-                description: "description_test",
-                atributes: [
-
-                    {
-                        trait_type: "Type",
-                        value: TypeName.substring(0, (TypeName.length - 4))
-                    },
-                    {
-                        trait_type: "Armour",
-                        value: ArmourName.substring(0, (ArmourName.length - 4))
-                    },
-                    {
-                        trait_type: "Background",
-                        value: backgroundName.substring(0, (backgroundName.length - 4))
-                    },
-                    {
-                        trait_type: "Mouth",
-                        value: MouthName.substring(0, (MouthName.length - 4))
-                    },
-                    {
-                        trait_type: "Head",
-                        value: HeadName.substring(0, (HeadName.length - 4))
-                    },
-                    {
-                        trait_type: "Eyes",
-                        value: EyesName.substring(0, (EyesName.length - 4))
-                    },
-                ]
-            }
-
-            metaHash = hash(metadata)
-
-            const x = metadataArray.find(_metadata => _metadata === metaHash)
-
-
-            if(!x) {
-                metadata["name"] = `${index}`
-                metadataArray.push(metaHash);
-                metadata = {}
-
-                fs.mkdir(`./export/${index}`, () => {})
-
-                for (let i = 1; i < 9; i++) {
-                    images(`./Background/${backgroundRarity}/${backgroundName}/${i}.png`)
-                        .draw(images(`./Type/${TypeRarity}/${TypeName}/${i}.png`), 0, 0)
-                        .draw(images(`./Armour/${ArmourRarity}/${ArmourName}/${i}.png`), 0, 0)
-                        .draw(images(`./Eyes/bandana/${EyesName}/${i}.png`), 0, 0)
-                        .draw(images(`./Head/${HeadRarity}/${HeadName}/${i}.png`), 0, 0)
-                        .draw(images(`./Mouth/${MouthRarity}/${MouthName}/${i}.png`), 0, 0)
-                        .save(`./export/${index}/${i}.png`, {
-                            quality: 1
-                        });
-                }
-                index += 1
-            }
-
-        }
-    } else if (HeadName.includes('vintage')) {
+    }
+    else if (HeadName.includes('vintage'))
+    {
         EyesName = 'angry_eyebrows'
 
-        metadata = {
-
-            description: "description_test",
-            atributes: [
-
-                {
-                    trait_type: "Type",
-                    value: TypeName.substring(0, (TypeName.length - 4))
-                },
-                {
-                    trait_type: "Armour",
-                    value: ArmourName.substring(0, (ArmourName.length - 4))
-                },
-                {
-                    trait_type: "Background",
-                    value: backgroundName.substring(0, (backgroundName.length - 4))
-                },
-                {
-                    trait_type: "Mouth",
-                    value: MouthName.substring(0, (MouthName.length - 4))
-                },
-                {
-                    trait_type: "Head",
-                    value: HeadName.substring(0, (HeadName.length - 4))
-                },
-                {
-                    trait_type: "Eyes",
-                    value: EyesName.substring(0, (EyesName.length - 4))
-                },
-            ]
-        }
-
-        metaHash = hash(metadata)
-
-        const x = metadataArray.find(_metadata => _metadata === metaHash)
-
-
-        if(!x) {
-            metadata["name"] = `${index}`
-            metadataArray.push(metaHash);
-            metadata = {}
-
-
-            fs.mkdir(`./export/${index}`, () => {})
-
-            for (let i = 1; i < 9; i++) {
-                images(`./Background/${backgroundRarity}/${backgroundName}/${i}.png`)
-                    .draw(images(`./Type/${TypeRarity}/${TypeName}/${i}.png`), 0, 0)
-                    .draw(images(`./Armour/${ArmourRarity}/${ArmourName}/${i}.png`), 0, 0)
-                    .draw(images(`./Eyes/bandana/${EyesName}/${i}.png`), 0, 0)
-                    .draw(images(`./Head/${HeadRarity}/${HeadName}/${i}.png`), 0, 0)
-                    .draw(images(`./Mouth/${MouthRarity}/${MouthName}/${i}.png`), 0, 0)
-                    .save(`./export/${index}/${i}.png`, {
-                        quality: 1
-                    });
-            }
-
-
-
-            index += 1
-        }
-
-    } else if(HeadName.includes('green_mytic_cap') || HeadName.includes('aviator_hat')) {
+    }
+    else if(HeadName.includes('green_mytic_cap') || HeadName.includes('aviator_hat'))
+    {
         EyesName = Green_Mytic_Cap[getRandomInt(0,Green_Mytic_Cap.length)]
-
-        if (EyesName === 'none') {
-            metadata = {
-
-                description: "description_test",
-                atributes: [
-
-                    {
-                        trait_type: "Type",
-                        value: TypeName.substring(0, (TypeName.length - 4))
-                    },
-                    {
-                        trait_type: "Armour",
-                        value: ArmourName.substring(0, (ArmourName.length - 4))
-                    },
-                    {
-                        trait_type: "Background",
-                        value: backgroundName.substring(0, (backgroundName.length - 4))
-                    },
-                    {
-                        trait_type: "Mouth",
-                        value: MouthName.substring(0, (MouthName.length - 4))
-                    },
-                    {
-                        trait_type: "Head",
-                        value: HeadName.substring(0, (HeadName.length - 4))
-                    },
-                ]
-            }
-
-            metaHash = hash(metadata)
-
-            const x = metadataArray.find(_metadata => _metadata === metaHash)
-
-
-            if(!x) {
-                metadata["name"] = `${index}`
-                metadataArray.push(metaHash);
-                metadata = {}
-
-
-                fs.mkdir(`./export/${index}`, () => {})
-
-                for (let i = 1; i < 9; i++) {
-                    images(`./Background/${backgroundRarity}/${backgroundName}/${i}.png`)
-                        .draw(images(`./Type/${TypeRarity}/${TypeName}/${i}.png`), 0, 0)
-                        .draw(images(`./Armour/${ArmourRarity}/${ArmourName}/${i}.png`), 0, 0)
-                        .draw(images(`./Head/${HeadRarity}/${HeadName}/${i}.png`), 0, 0)
-                        .draw(images(`./Mouth/${MouthRarity}/${MouthName}/${i}.png`), 0, 0)
-                        .save(`./export/${index}/${i}.png`, {
-                            quality: 1
-                        });
-                }
-                index += 1
-            }
-        } else {
-            metadata = {
-
-                description: "description_test",
-                atributes: [
-
-                    {
-                        trait_type: "Type",
-                        value: TypeName.substring(0, (TypeName.length - 4))
-                    },
-                    {
-                        trait_type: "Armour",
-                        value: ArmourName.substring(0, (ArmourName.length - 4))
-                    },
-                    {
-                        trait_type: "Background",
-                        value: backgroundName.substring(0, (backgroundName.length - 4))
-                    },
-                    {
-                        trait_type: "Mouth",
-                        value: MouthName.substring(0, (MouthName.length - 4))
-                    },
-                    {
-                        trait_type: "Head",
-                        value: HeadName.substring(0, (HeadName.length - 4))
-                    },
-                    {
-                        trait_type: "Eyes",
-                        value: EyesName.substring(0, (EyesName.length - 4))
-                    },
-                ]
-            }
-
-            metaHash = hash(metadata)
-
-            const x = metadataArray.find(_metadata => _metadata === metaHash)
-
-
-            if(!x) {
-                metadata["name"] = `${index}`
-                metadataArray.push(metaHash);
-                metadata = {}
-
-
-                fs.mkdir(`./export/${index}`, () => {})
-
-                for (let i = 1; i < 9; i++) {
-                    images(`./Background/${backgroundRarity}/${backgroundName}/${i}.png`)
-                        .draw(images(`./Type/${TypeRarity}/${TypeName}/${i}.png`), 0, 0)
-                        .draw(images(`./Armour/${ArmourRarity}/${ArmourName}/${i}.png`), 0, 0)
-                        .draw(images(`./Eyes/green_mytic_cap/${EyesName}/${i}.png`), 0, 0)
-                        .draw(images(`./Head/${HeadRarity}/${HeadName}/${i}.png`), 0, 0)
-                        .draw(images(`./Mouth/${MouthRarity}/${MouthName}/${i}.png`), 0, 0)
-                        .save(`./export/${index}/${i}.png`, {
-                            quality: 1
-                        });
-                }
-
-
-                index += 1
-            }
-        }
-
-
-    } else if (HeadName.includes('bunny_hat')) {
+    }
+    else if (HeadName.includes('bunny_hat'))
+    {
         EyesName = bunny_hat[getRandomInt(0,bunny_hat.length)]
-
-        if (EyesName === 'none') {
-            metadata = {
-
-                description: "description_test",
-                atributes: [
-
-                    {
-                        trait_type: "Type",
-                        value: TypeName.substring(0, (TypeName.length - 4))
-                    },
-                    {
-                        trait_type: "Armour",
-                        value: ArmourName.substring(0, (ArmourName.length - 4))
-                    },
-                    {
-                        trait_type: "Background",
-                        value: backgroundName.substring(0, (backgroundName.length - 4))
-                    },
-                    {
-                        trait_type: "Mouth",
-                        value: MouthName.substring(0, (MouthName.length - 4))
-                    },
-                    {
-                        trait_type: "Head",
-                        value: HeadName.substring(0, (HeadName.length - 4))
-                    },
-                ]
-            }
-
-            metaHash = hash(metadata)
-
-            const x = metadataArray.find(_metadata => _metadata === metaHash)
-
-
-            if(!x) {
-                metadata["name"] = `${index}`
-                metadataArray.push(metaHash);
-                metadata = {}
-
-
-                fs.mkdir(`./export/${index}`, () => {})
-
-                for (let i = 1; i < 9; i++) {
-                    images(`./Background/${backgroundRarity}/${backgroundName}/${i}.png`)
-                        .draw(images(`./Type/${TypeRarity}/${TypeName}/${i}.png`), 0, 0)
-                        .draw(images(`./Armour/${ArmourRarity}/${ArmourName}/${i}.png`), 0, 0)
-                        .draw(images(`./Head/${HeadRarity}/${HeadName}/${i}.png`), 0, 0)
-                        .draw(images(`./Mouth/${MouthRarity}/${MouthName}/${i}.png`), 0, 0)
-                        .save(`./export/${index}/${i}.png`, {
-                            quality: 1
-                        });
-                }
-                index += 1
-            }
-        } else {
-            metadata = {
-
-                description: "description_test",
-                atributes: [
-
-                    {
-                        trait_type: "Type",
-                        value: TypeName.substring(0, (TypeName.length - 4))
-                    },
-                    {
-                        trait_type: "Armour",
-                        value: ArmourName.substring(0, (ArmourName.length - 4))
-                    },
-                    {
-                        trait_type: "Background",
-                        value: backgroundName.substring(0, (backgroundName.length - 4))
-                    },
-                    {
-                        trait_type: "Mouth",
-                        value: MouthName.substring(0, (MouthName.length - 4))
-                    },
-                    {
-                        trait_type: "Head",
-                        value: HeadName.substring(0, (HeadName.length - 4))
-                    },
-                    {
-                        trait_type: "Eyes",
-                        value: EyesName.substring(0, (EyesName.length - 4))
-                    },
-                ]
-            }
-
-            metaHash = hash(metadata)
-
-            const x = metadataArray.find(_metadata => _metadata === metaHash)
-
-
-            if(!x) {
-                metadata["name"] = `${index}`
-                metadataArray.push(metaHash);
-                metadata = {}
-
-
-                fs.mkdir(`./export/${index}`, () => {})
-
-                for (let i = 1; i < 9; i++) {
-                    images(`./Background/${backgroundRarity}/${backgroundName}/${i}.png`)
-                        .draw(images(`./Type/${TypeRarity}/${TypeName}/${i}.png`), 0, 0)
-                        .draw(images(`./Armour/${ArmourRarity}/${ArmourName}/${i}.png`), 0, 0)
-                        .draw(images(`./Eyes/bunny_hat/${EyesName}/${i}.png`), 0, 0)
-                        .draw(images(`./Head/${HeadRarity}/${HeadName}/${i}.png`), 0, 0)
-                        .draw(images(`./Mouth/${MouthRarity}/${MouthName}/${i}.png`), 0, 0)
-                        .save(`./export/${index}/${i}.png`, {
-                            quality: 1
-                        });
-                }
-
-
-                index += 1
-            }
-        }
-
-
-    } else if (HeadName.includes('chinese_mask') ||
+    }
+    else if (HeadName.includes('chinese_mask') ||
         HeadName.includes('medieval_helmet') ||
         HeadName.includes('beast_mask') ||
         HeadName.includes('dragon_mask') ||
@@ -585,126 +166,17 @@ async function afterReadDireactories()  {
         HeadName.includes('dino_mask') ||
         HeadName.includes('top_hat'))
     {
-        metadata = {
-
-            description: "description_test",
-            atributes: [
-
-                {
-                    trait_type: "Type",
-                    value: TypeName.substring(0, (TypeName.length - 4))
-                },
-                {
-                    trait_type: "Armour",
-                    value: ArmourName.substring(0, (ArmourName.length - 4))
-                },
-                {
-                    trait_type: "Background",
-                    value: backgroundName.substring(0, (backgroundName.length - 4))
-                },
-                {
-                    trait_type: "Mouth",
-                    value: MouthName.substring(0, (MouthName.length - 4))
-                },
-                {
-                    trait_type: "Head",
-                    value: HeadName.substring(0, (HeadName.length - 4))
-                },
-            ]
-        }
-
-        metaHash = hash(metadata)
-
-        const x = metadataArray.find(_metadata => _metadata === metaHash)
-
-
-        if(!x) {
-            metadata["name"] = `${index}`
-            metadataArray.push(metaHash);
-            metadata = {}
-
-
-            fs.mkdir(`./export/${index}`, () => {})
-
-            for (let i = 1; i < 9; i++) {
-                images(`./Background/${backgroundRarity}/${backgroundName}/${i}.png`)
-                    .draw(images(`./Type/${TypeRarity}/${TypeName}/${i}.png`), 0, 0)
-                    .draw(images(`./Armour/${ArmourRarity}/${ArmourName}/${i}.png`), 0, 0)
-                    .draw(images(`./Head/${HeadRarity}/${HeadName}/${i}.png`), 0, 0)
-                    .draw(images(`./Mouth/${MouthRarity}/${MouthName}/${i}.png`), 0, 0)
-                    .save(`./export/${index}/${i}.png`, {
-                        quality: 1
-                    });
-            }
-            index += 1
-        }
-    } else {
-        metadata = {
-
-            description: "description_test",
-            atributes: [
-
-                {
-                    trait_type: "Type",
-                    value: TypeName.substring(0, (TypeName.length - 4))
-                },
-                {
-                    trait_type: "Armour",
-                    value: ArmourName.substring(0, (ArmourName.length - 4))
-                },
-                {
-                    trait_type: "Background",
-                    value: backgroundName.substring(0, (backgroundName.length - 4))
-                },
-                {
-                    trait_type: "Mouth",
-                    value: MouthName.substring(0, (MouthName.length - 4))
-                },
-                {
-                    trait_type: "Head",
-                    value: HeadName.substring(0, (HeadName.length - 4))
-                },
-                {
-                    trait_type: "Eyes",
-                    value: EyesName.substring(0, (EyesName.length - 4))
-                },
-            ]
-        }
-
-        metaHash = hash(metadata)
-
-        const x = metadataArray.find(_metadata => _metadata === metaHash)
-
-
-        if(!x) {
-            metadata["name"] = `${index}`
-            metadataArray.push(metaHash);
-            metadata = {}
-
-
-            fs.mkdir(`./export/${index}`, () => {})
-
-            for (let i = 1; i < 9; i++) {
-                images(`./Background/${backgroundRarity}/${backgroundName}/${i}.png`)
-                    .draw(images(`./Type/${TypeRarity}/${TypeName}/${i}.png`), 0, 0)
-                    .draw(images(`./Armour/${ArmourRarity}/${ArmourName}/${i}.png`), 0, 0)
-                    .draw(images(`./Eyes/${EyesRarity}/${EyesName}/${i}.png`), 0, 0)
-                    .draw(images(`./Head/${HeadRarity}/${HeadName}/${i}.png`), 0, 0)
-                    .draw(images(`./Mouth/${MouthRarity}/${MouthName}/${i}.png`), 0, 0)
-                    .save(`./export/${index}/${i}.png`, {
-                        quality: 1
-                    });
-            }
-
-
-            index += 1
+        EyesName = 'classic_eyes'
+        if (
+            HeadName.includes('beast_mask') ||
+            HeadName.includes('dragon_mask') ||
+            HeadName.includes('medieval_half_mask') ||
+            HeadName.includes('dino_mask')
+        ) {
+            MouthName = 'none'
         }
     }
 
-
-
-
-    /*
     metadata = {
 
         description: "description_test",
@@ -743,35 +215,63 @@ async function afterReadDireactories()  {
 
 
     if(!x) {
+
         metadata["name"] = `${index}`
         metadataArray.push(metaHash);
         metadata = {}
-
+        if (!assetLimitControl.shouldSpawn(HeadName, 'head')) {
+            Head = Head.filter(item => item !== HeadName)
+            return
+        }
+        if (!assetLimitControl.shouldSpawn(TypeName, 'type')) {
+            Type = Type.filter(item => item !== TypeName)
+            return
+        }
+        if (!assetLimitControl.shouldSpawn(ArmourName, 'armour')) {
+            Armour = Armour.filter(item => item !== ArmourName)
+            return
+        }
+        if (!assetLimitControl.shouldSpawn(backgroundName, 'background')) {
+            background = background.filter(item => item !== backgroundName)
+            return
+        }
+        if (!assetLimitControl.shouldSpawn(EyesName, 'eyes')) {
+            Eyes = Eyes.filter(item => item !== EyesName)
+            return
+        }
+        if (!assetLimitControl.shouldSpawn(MouthName, 'mouth')) {
+            Mouth = Mouth.filter(item => item !== MouthName)
+            return
+        }
+        let NamesArray = [
+            /*background, armour, eyes, mouth, type, head*/
+            backgroundName, ArmourName, EyesName, MouthName, TypeName, HeadName
+        ]
+        assetLimitControl.setSpawn(NamesArray)
 
         fs.mkdir(`./export/${index}`, () => {})
 
         for (let i = 1; i < 9; i++) {
-            images(`./Background/${backgroundRarity}/${backgroundName}/${i}.png`)
-                .draw(images(`./Type/${TypeRarity}/${TypeName}/${i}.png`), 0, 0)
-                .draw(images(`./Armour/${ArmourRarity}/${ArmourName}/${i}.png`), 0, 0)
-                .draw(images(`./Eyes/${EyesRarity}/${EyesName}/${i}.png`), 0, 0)
-                .draw(images(`./Head/${HeadRarity}/${HeadName}/${i}.png`), 0, 0)
-                .draw(images(`./Mouth/${MouthRarity}/${MouthName}/${i}.png`), 0, 0)
+            images(`./Background/Common/${backgroundName}/${i}.png`)
+                .draw(images(`./Type/Common/${TypeName}/${i}.png`), 0, 0)
+                .draw(images(`./Armour/Common/${ArmourName}/${i}.png`), 0, 0)
+                .draw(images(`./Eyes/Common/${EyesName}/${i}.png`), 0, 0)
+                .draw(images(`./Head/Common/${HeadName}/${i}.png`), 0, 0)
+                .draw(images(`./Mouth/Common/${MouthName}/${i}.png`), 0, 0)
                 .save(`./export/${index}/${i}.png`, {
                     quality: 1
                 });
         }
 
-
-
         index += 1
+        return;
     }
-     */
+
 
 }
 
 
-generateSprites()
+
 
 
 function getRandomInt(min, max) {
