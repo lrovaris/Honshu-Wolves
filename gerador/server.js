@@ -1,9 +1,4 @@
-const express = require('express');
-const body_parser = require('body-parser');
 const fs = require('fs');
-const path = require('path');
-const https = require('https');
-const mergeImages = require('merge-images');
 const images = require("images");
 const { promisify } = require('util')
 const hash  = require('object-hash')
@@ -11,34 +6,36 @@ let assetLimitControl = require('./assetLimitControl')
 
 const readdir = promisify(require('fs').readdir)
 
-const app = express();
 
 //Middleware
 
-function getRandomIndexByProbability(probabilities) {
-    let r = Math.random(),
-        index = probabilities.length - 1;
-
-    probabilities.some(function (probability, i) {
-        if (r < probability) {
-            index = i;
-            return true;
-        }
-        r -= probability;
-    });
-    return index;
-}
-
-let probabilities = [1]
-let Folders = ["Common"]
-
 let metaHash = ''
+let metaHashArray = []
 let metadataArray = []
 
 let index = 1;
 
-let limit = 2222
+let limit = 1
 
+let background = [
+     'cloudy',
+]
+let Armour =  [
+    'cyborg_armor',
+]
+let Eyes =  [
+    'classic_eyes',
+]
+let Mouth = ['none' ]
+let Type =  [
+    'slate_grey'
+]
+let Head = [
+    'medieval_half_mask'
+]
+
+
+/*
 
 let background = []
 let Armour = []
@@ -48,7 +45,7 @@ let Type = []
 let Head = []
 let Bandana = []
 let Green_Mytic_Cap = []
-let bunny_hat = []
+let bunny_hat =   []*/
 
 let backgroundName = ""
 let ArmourName = ""
@@ -57,52 +54,7 @@ let MouthName = ""
 let TypeName = ""
 let HeadName = ""
 
-let backgroundRarity = ""
-let ArmourRarity = ""
-let EyesRarity = ""
-let MouthRarity = ""
-let TypeRarity = ""
-let HeadRarity = ""
-
-
-async function readDirectories(callback) {
-
-    background = []
-    Armour = []
-    Eyes = []
-    Mouth = []
-    Type = []
-    Head = []
-    Bandana = []
-
-    background = await readdir("./Background/"+'Common')
-
-    Armour =  await readdir("./Armour/"+'Common')
-
-    Eyes =  await readdir("./Eyes/"+'Common')
-
-    Mouth = await readdir("./Mouth/"+'Common')
-
-    Type =  await readdir("./Type/"+'Common')
-
-    Head = await readdir("./Head/"+'Common')
-
-    Bandana = await readdir("./Eyes/bandana/")
-
-    Green_Mytic_Cap = await readdir("./Eyes/green_mytic_cap/")
-
-    bunny_hat = await readdir("./Eyes/bunny_hat/")
-
-    callback();
-
-}
-
- readDirectories( async()  =>  {
-  await  generateSprites()
-}).then( () => {
-     console.log('ue')
- })
-
+let this_ = true
 
 
 async  function generateSprites() {
@@ -112,18 +64,19 @@ async  function generateSprites() {
     if (index > limit ){
         metadataArray = JSON.stringify(metadataArray,null,2)
 
-        fs.writeFile('_metadata.json', metadataArray, (err) => {
+   /*     fs.writeFile('_metadata.json', metadataArray, (err) => {
             if (err) throw err;
             console.log('Data written to file');
-        });
+        });*/ //TODO
     } else {
-        generateSprites()
+      await generateSprites()
     }
 }
 
 
 
 async function afterReadDireactories()  {
+
 
     backgroundName = background[getRandomInt(0,background.length)]
 
@@ -184,95 +137,104 @@ async function afterReadDireactories()  {
 
             {
                 trait_type: "Type",
-                value: TypeName.substring(0, (TypeName.length - 4))
+                value: TypeName
             },
             {
                 trait_type: "Armour",
-                value: ArmourName.substring(0, (ArmourName.length - 4))
+                value: ArmourName
             },
             {
                 trait_type: "Background",
-                value: backgroundName.substring(0, (backgroundName.length - 4))
+                value: backgroundName
             },
             {
                 trait_type: "Mouth",
-                value: MouthName.substring(0, (MouthName.length - 4))
+                value: MouthName
             },
             {
                 trait_type: "Head",
-                value: HeadName.substring(0, (HeadName.length - 4))
+                value: HeadName
             },
             {
                 trait_type: "Eyes",
-                value: EyesName.substring(0, (EyesName.length - 4))
+                value: EyesName
             },
         ]
     }
 
     metaHash = hash(metadata)
 
-    const x = metadataArray.find(_metadata => _metadata === metaHash)
-
-
+    let x = metaHashArray.find(_metadata => _metadata === metaHash)
     if(!x) {
 
-        metadata["name"] = `${index}`
-        metadataArray.push(metaHash);
-        metadata = {}
         if (!assetLimitControl.shouldSpawn(HeadName, 'head')) {
             Head = Head.filter(item => item !== HeadName)
-            return
+            console.log(1)
+            return;
         }
         if (!assetLimitControl.shouldSpawn(TypeName, 'type')) {
             Type = Type.filter(item => item !== TypeName)
-            return
+            console.log(2)
+            return;
         }
         if (!assetLimitControl.shouldSpawn(ArmourName, 'armour')) {
             Armour = Armour.filter(item => item !== ArmourName)
-            return
+            console.log(3)
+            return;
         }
         if (!assetLimitControl.shouldSpawn(backgroundName, 'background')) {
+
             background = background.filter(item => item !== backgroundName)
-            return
+            console.log(4)
+            return;
         }
         if (!assetLimitControl.shouldSpawn(EyesName, 'eyes')) {
+
             Eyes = Eyes.filter(item => item !== EyesName)
-            return
+            console.log(5)
+            return;
         }
         if (!assetLimitControl.shouldSpawn(MouthName, 'mouth')) {
             Mouth = Mouth.filter(item => item !== MouthName)
-            return
+            console.log(6)
+            return;
         }
         let NamesArray = [
-            /*background, armour, eyes, mouth, type, head*/
             backgroundName, ArmourName, EyesName, MouthName, TypeName, HeadName
         ]
+
+
+        metadata["name"] = `${index}`
+        metadataArray.push(metadata);
+        metaHashArray.push(metaHash)
+        metadata = {}
+
         assetLimitControl.setSpawn(NamesArray)
 
-        fs.mkdir(`./export/${index}`, () => {})
+        fs.mkdir(`./export2/${index}`, () => {})
 
-        for (let i = 1; i < 9; i++) {
+
+       // console.log(background, Armour, Eyes, Mouth, Type, Head)
+
+
+       for (let i = 1; i < 9; i++) {
             images(`./Background/Common/${backgroundName}/${i}.png`)
                 .draw(images(`./Type/Common/${TypeName}/${i}.png`), 0, 0)
                 .draw(images(`./Armour/Common/${ArmourName}/${i}.png`), 0, 0)
                 .draw(images(`./Eyes/Common/${EyesName}/${i}.png`), 0, 0)
                 .draw(images(`./Head/Common/${HeadName}/${i}.png`), 0, 0)
                 .draw(images(`./Mouth/Common/${MouthName}/${i}.png`), 0, 0)
-                .save(`./export/${index}/${i}.png`, {
+                .save(`./export2/${index}/${i}.png`, {
                     quality: 1
                 });
-        }
-
-        index += 1
-        return;
+        }   index += 1
     }
 
 
 }
 
 
-
-
+generateSprites()
 
 function getRandomInt(min, max) {
     min = Math.ceil(min);
