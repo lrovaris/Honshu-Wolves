@@ -15,7 +15,7 @@ const fs = require( 'fs' );
 const readdir = promisify( require( 'fs' ).readdir )
 let files
 let dstPath
-let index = 193
+let index = 1
 let limit = 2222
 
 let readDirectories =  async function (id, callback) {

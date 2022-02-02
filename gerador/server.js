@@ -15,27 +15,12 @@ let metadataArray = []
 
 let index = 1;
 
-let limit = 1
-
-let background = [
-     'cloudy',
-]
-let Armour =  [
-    'cyborg_armor',
-]
-let Eyes =  [
-    'classic_eyes',
-]
-let Mouth = ['none' ]
-let Type =  [
-    'slate_grey'
-]
-let Head = [
-    'medieval_half_mask'
-]
+let limit = 2222
 
 
-/*
+
+
+
 
 let background = []
 let Armour = []
@@ -45,7 +30,7 @@ let Type = []
 let Head = []
 let Bandana = []
 let Green_Mytic_Cap = []
-let bunny_hat =   []*/
+let BunnyHat =   []
 
 let backgroundName = ""
 let ArmourName = ""
@@ -64,10 +49,10 @@ async  function generateSprites() {
     if (index > limit ){
         metadataArray = JSON.stringify(metadataArray,null,2)
 
-   /*     fs.writeFile('_metadata.json', metadataArray, (err) => {
+       fs.writeFile('_metadata.json', metadataArray, (err) => {
             if (err) throw err;
             console.log('Data written to file');
-        });*/ //TODO
+        });
     } else {
       await generateSprites()
     }
@@ -76,6 +61,24 @@ async  function generateSprites() {
 
 
 async function afterReadDireactories()  {
+
+    background = await readdir("./Background/Common")
+
+    Armour =  await readdir("./Armour/Common")
+
+    Eyes =  await readdir("./Eyes/Common")
+
+    Mouth = await readdir("./Mouth/Common")
+
+    Type =  await readdir("./Type/Common")
+
+    Head = await readdir("./Head/Common")
+
+    Bandana = await readdir("./Eyes/Bandana/")
+
+    Green_Mytic_Cap = await readdir("./Eyes/green mytic cap/")
+
+    BunnyHat = await readdir("./Eyes/Bunny Hat/")
 
 
     backgroundName = background[getRandomInt(0,background.length)]
@@ -94,41 +97,59 @@ async function afterReadDireactories()  {
 
     let metadata = {}
 
-    if(HeadName.includes('bandana')) {
+    if(HeadName.includes('Bandana')) {
         EyesName = Bandana[getRandomInt(0, Bandana.length)]
 
     }
-    else if (HeadName.includes('vintage'))
+    else if (HeadName.includes('Vintage'))
     {
-        EyesName = 'angry_eyebrows'
+        EyesName = 'Angry Eyebrows'
 
     }
-    else if(HeadName.includes('green_mytic_cap') || HeadName.includes('aviator_hat'))
+    else if(HeadName.includes('Green Mytic Cap') || HeadName.includes('Aviator Hat'))
     {
         EyesName = Green_Mytic_Cap[getRandomInt(0,Green_Mytic_Cap.length)]
     }
-    else if (HeadName.includes('bunny_hat'))
+    else if (HeadName.includes('Bunny Hat'))
     {
-        EyesName = bunny_hat[getRandomInt(0,bunny_hat.length)]
+        EyesName = BunnyHat[getRandomInt(0,BunnyHat.length)]
     }
-    else if (HeadName.includes('chinese_mask') ||
-        HeadName.includes('medieval_helmet') ||
-        HeadName.includes('beast_mask') ||
-        HeadName.includes('dragon_mask') ||
-        HeadName.includes('medieval_half_mask') ||
-        HeadName.includes('dino_mask') ||
-        HeadName.includes('top_hat'))
+    else if (HeadName.includes('Chinese Mask') ||
+        HeadName.includes('Medieval Helmet') ||
+        HeadName.includes('Beast Mask') ||
+        HeadName.includes('Dragon Mask') ||
+        HeadName.includes('Medieval Half Mask') ||
+        HeadName.includes('Dino Mask') ||
+        HeadName.includes('Top Hat'))
     {
-        EyesName = 'classic_eyes'
+        EyesName = 'Classic Eyes'
         if (
-            HeadName.includes('beast_mask') ||
-            HeadName.includes('dragon_mask') ||
-            HeadName.includes('medieval_half_mask') ||
-            HeadName.includes('dino_mask')
+            HeadName.includes('Beast Mask') ||
+            HeadName.includes('Dragon Mask') ||
+            HeadName.includes('Medieval Half Mask') ||
+            HeadName.includes('Dino Mask')
         ) {
-            MouthName = 'none'
+            MouthName = 'None'
         }
     }
+
+
+    while (!assetLimitControl.shouldSpawn(TypeName, 'Type')) {
+        Type = Type.filter(item => item !== TypeName)
+        TypeName = Type[getRandomInt(0,Type.length)]
+    }
+    while (!assetLimitControl.shouldSpawn(ArmourName, 'Armour')) {
+        Armour = Armour.filter(item => item !== ArmourName)
+        ArmourName = Armour[getRandomInt(0,Armour.length)]
+    }
+    while (!assetLimitControl.shouldSpawn(backgroundName, 'Background')) {
+        background = background.filter(item => item !== backgroundName)
+        backgroundName = background[getRandomInt(0,background.length)]
+    }
+    let NamesArray = [
+        backgroundName, ArmourName, EyesName, MouthName, TypeName, HeadName
+    ]
+
 
     metadata = {
 
@@ -167,41 +188,7 @@ async function afterReadDireactories()  {
     let x = metaHashArray.find(_metadata => _metadata === metaHash)
     if(!x) {
 
-        if (!assetLimitControl.shouldSpawn(HeadName, 'head')) {
-            Head = Head.filter(item => item !== HeadName)
-            console.log(1)
-            return;
-        }
-        if (!assetLimitControl.shouldSpawn(TypeName, 'type')) {
-            Type = Type.filter(item => item !== TypeName)
-            console.log(2)
-            return;
-        }
-        if (!assetLimitControl.shouldSpawn(ArmourName, 'armour')) {
-            Armour = Armour.filter(item => item !== ArmourName)
-            console.log(3)
-            return;
-        }
-        if (!assetLimitControl.shouldSpawn(backgroundName, 'background')) {
 
-            background = background.filter(item => item !== backgroundName)
-            console.log(4)
-            return;
-        }
-        if (!assetLimitControl.shouldSpawn(EyesName, 'eyes')) {
-
-            Eyes = Eyes.filter(item => item !== EyesName)
-            console.log(5)
-            return;
-        }
-        if (!assetLimitControl.shouldSpawn(MouthName, 'mouth')) {
-            Mouth = Mouth.filter(item => item !== MouthName)
-            console.log(6)
-            return;
-        }
-        let NamesArray = [
-            backgroundName, ArmourName, EyesName, MouthName, TypeName, HeadName
-        ]
 
 
         metadata["name"] = `${index}`
@@ -211,7 +198,7 @@ async function afterReadDireactories()  {
 
         assetLimitControl.setSpawn(NamesArray)
 
-        fs.mkdir(`./export2/${index}`, () => {})
+        fs.mkdir(`./export/${index}`, () => {})
 
 
        // console.log(background, Armour, Eyes, Mouth, Type, Head)
@@ -224,7 +211,7 @@ async function afterReadDireactories()  {
                 .draw(images(`./Eyes/Common/${EyesName}/${i}.png`), 0, 0)
                 .draw(images(`./Head/Common/${HeadName}/${i}.png`), 0, 0)
                 .draw(images(`./Mouth/Common/${MouthName}/${i}.png`), 0, 0)
-                .save(`./export2/${index}/${i}.png`, {
+                .save(`./export/${index}/${i}.png`, {
                     quality: 1
                 });
         }   index += 1
