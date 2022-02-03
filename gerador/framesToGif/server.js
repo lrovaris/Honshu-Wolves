@@ -15,13 +15,13 @@ const fs = require( 'fs' );
 const readdir = promisify( require( 'fs' ).readdir )
 let files
 let dstPath
-let index = 1
-let limit = 2222
+let index = 2099
+let limit = 1
 
 let readDirectories =  async function (id, callback) {
      files = await readdir("../export/"+id)
 
-     dstPath = path.join('./gifs', `/${id}.gif`)
+     dstPath = path.join('./gifs2', `/${id}.gif`)
 
     callback ()
 }
@@ -35,14 +35,14 @@ let afterReadDir = async function () {
         writeStream.on('close', () => {
             resolve1()
         })
-        const encoder = new GIFEncoder('501', '501', 'neuquant', true, 8)
+        const encoder = new GIFEncoder('502', '502', 'neuquant', true, 8)
         encoder.createReadStream().pipe(writeStream)
         encoder.start()
         encoder.setDelay(100)
         encoder.setQuality(1)
         encoder.setRepeat(0)
 
-        const canvas = createCanvas(501, 501)
+        const canvas = createCanvas(502, 502)
         const ctx = canvas.getContext('2d')
 
         files.forEach((file) => {

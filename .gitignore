@@ -77,4 +77,4 @@ typings/
 
 *.zip
 
-*gerador
+gerador/**

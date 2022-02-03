@@ -188,7 +188,38 @@ async function afterReadDireactories()  {
     let x = metaHashArray.find(_metadata => _metadata === metaHash)
     if(!x) {
 
+        if (!assetLimitControl.shouldSpawn(HeadName, 'Head')) {
+            Head = Head.filter(item => item !== HeadName)
+            console.log(1)
+            return;
+        }
+        if (!assetLimitControl.shouldSpawn(TypeName, 'Type')) {
+            Type = Type.filter(item => item !== TypeName)
+            console.log(2)
+            return;
+        }
+        if (!assetLimitControl.shouldSpawn(ArmourName, 'Armour')) {
+            Armour = Armour.filter(item => item !== ArmourName)
+            console.log(3)
+            return;
+        }
+        if (!assetLimitControl.shouldSpawn(backgroundName, 'Background')) {
 
+            background = background.filter(item => item !== backgroundName)
+            console.log(4)
+            return;
+        }
+        if (!assetLimitControl.shouldSpawn(EyesName, 'Eyes')) {
+
+            Eyes = Eyes.filter(item => item !== EyesName)
+            console.log(5)
+            return;
+        }
+        if (!assetLimitControl.shouldSpawn(MouthName, 'Mouth')) {
+            Mouth = Mouth.filter(item => item !== MouthName)
+            console.log(6)
+            return;
+        }
 
 
         metadata["name"] = `${index}`

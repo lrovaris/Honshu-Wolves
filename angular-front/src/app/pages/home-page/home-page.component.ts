@@ -27,7 +27,7 @@ export class HomePageComponent implements OnInit {
     },
     {
       title: '- What is the name of your token and how can I get it?',
-      text: 'Honshū is the utility token of the Honshūverse that will be used for the launch of Gen 2. You can get it by holding your Honshū NFTs in your wallet.',
+      text: 'HOWL is the utility token of the Honshūverse that will be used for the launch of Gen 2. You can get it by holding your Honshū NFTs in your wallet.',
       id: 4
     },
     {
