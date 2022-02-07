@@ -41,27 +41,27 @@ export class HomePageComponent implements OnInit {
     {
       title: 'Phase 1: Launch of the Genesis collection.',
       text: '2.222 Honshū Wolves are released in the metaverse waiting to be chosen by their new keepers. A fixed number of the extinct Gods will rise, piece by piece completing the full collection to be held in your wallet.',
-      image: 'https://cdn.discordapp.com/attachments/596748701905715201/935934204515074078/unknown.png'
+      image: 'https://cdn.discordapp.com/attachments/936274371855667301/940028543532945470/1.png'
     },
     {
       title: 'Phase 2: Distribution of tokens for breeding.\n',
       text: 'In order to summon and master the next generation of Honshū Wolves, it will be imperative that you already be the keeper of 2 of them and a certain fixed number of tokens.',
-      image: 'https://cdn.discordapp.com/attachments/596748701905715201/935934203202252800/unknown.png'
+      image: 'https://cdn.discordapp.com/attachments/936274371855667301/940028543809781811/2.png'
     },
     {
       title: 'Phase 3: Legendary Honshū Wolves Auction.\n',
       text: 'These legendary specimens were born with special characteristics. They are different from the normal ones, therefore, they have been separated from the original collection and will wait for their new owners in auctions to take place on a day and time to be confirmed. Owning a Legendary Honshū Wolf will give the keeper the possibility to vote on upcoming phases and plans.\n',
-      image: 'https://cdn.discordapp.com/attachments/596748701905715201/935934204217262152/unknown.png'
+      image: 'https://cdn.discordapp.com/attachments/936274371855667301/940028544111751179/3.png'
     },
     {
       title: 'Phase 4: Launch of the Second Generation.',
       text: 'Years passed in the Honshūverse and the adult wolves began the procreation phase. 1,111 Honshū babies will be summoned, being the army destined to proclaim revenge against humans.',
-      image: 'https://cdn.discordapp.com/attachments/596748701905715201/935934203877552218/unknown.png'
+      image: 'https://cdn.discordapp.com/attachments/936274371855667301/940028544480854076/4.png'
     },
     {
       title: 'Phase 5: The moment of truth.',
       text: 'The Honshū babies have grown up and are eager to show off their powers, the moment has come for them to claim revenge upon the people that slaughtered the ancestral Gods. What will happen to the Honshūverse? Be part of the universe and shape the metaverse!',
-      image: 'https://cdn.discordapp.com/attachments/596748701905715201/935934203554578442/unknown.png'
+      image: 'https://cdn.discordapp.com/attachments/936274371855667301/940028544820580352/5.png'
     },
   ]
 
